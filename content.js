@@ -10,16 +10,19 @@ chrome.runtime.onMessage.addListener(
 );
 
 function getDetails(request, sender, sendResponse) {
-    console.log("Scraping content");
     let carPriceNodes = document.getElementsByClassName('col-xs-3 listing-price ');
-    console.log('Car prices', carPriceNodes);
     let cars = [];
     for (var i = 0; i < carPriceNodes.length; i++) {
+        let carId = i;
         let carPrice = parseInt(carPriceNodes[i].innerText.split(' ')[0].split('.').join(''));
+        if (Number.isNaN(carPrice)) {
+            continue;
+        }
         let carYear = new Date(carPriceNodes[i].previousElementSibling.innerText).getTime();
-        let car = [carYear, carPrice];
+        let carTitle = carPriceNodes[i].parentElement.parentElement.previousElementSibling.getElementsByClassName("listing-heading darkLink")[0].innerText
+        let car = {id: carId, title: carTitle, year: carYear, price: carPrice};
         cars.push(car);
     };
-    console.log('Cars', cars);
+    console.log('cars', cars);
     return sendResponse(cars);
 }
