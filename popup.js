@@ -99,8 +99,7 @@ function generateChart() {
               //return value.toLocaleString();
               if (value == 0) return 0;
               return (value / 1000) + "K";
-            },
-            beginAtZero: true,
+            }
           },
           scaleLabel: {
             display: true,
@@ -113,7 +112,7 @@ function generateChart() {
           position: 'bottom',
           time: {
             unit: 'year',
-            stepSize: 2,
+            stepSize: 1,
           }
         }]
       }
