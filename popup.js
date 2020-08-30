@@ -1,10 +1,18 @@
-var extrapolationYears = 3;
+var extrapolationYears;
 var cars;
 var regressionPoints;
 var chart;
 
 document.addEventListener('DOMContentLoaded', function () {
-  document.querySelector('#years').options.selectedIndex = extrapolationYears;
+  chrome.storage.sync.get(['years'], function (result) {
+    console.log("Stored years", result.years);
+    if (result.years) {
+      extrapolationYears = result.years;
+    } else {
+      extrapolationYears = 3;
+    }
+    document.querySelector('#years').options.selectedIndex = extrapolationYears;
+  });
   document.querySelector('#years').addEventListener('change', changeHandler);
 });
 
@@ -17,13 +25,14 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 });
 
 function changeHandler(e) {
-  extrapolationYears = e.srcElement.options.selectedIndex;
+  extrapolationYears = e.srcElement.options.selectedIndex
+  chrome.storage.sync.set({ 'years': extrapolationYears });
   execute();
 }
 
 function execute() {
   console.log("Cars", cars);
-  regressionPoints = doRegression();
+  doRegression();
   console.log("DataOut", regressionPoints);
   generateChart();
 }
@@ -35,19 +44,18 @@ function doRegression() {
   };
   let regressionResult = regression.exponential(data, { order: 2, precision: 14 });
   data = data.sort(function (a, b) { return a[0] - b[0] });
-  let points = [];
+  regressionPoints = [];
   let init = new Date(data[0][0]).getUTCFullYear() - extrapolationYears;
   let fin = Math.min(new Date().getUTCFullYear(), (new Date(data[data.length - 1][0]).getUTCFullYear() + extrapolationYears));
-  for (let i = init; i <= fin ; i++) {
+  for (let i = init; i <= fin; i++) {
     let year = new Date(i.toString());
     let point = regressionResult.predict(year.getTime());
-    points.push(point);  
+    regressionPoints.push(point);
   }
-  return points
 }
 
 function generateChart() {
-  if (chart) {chart.destroy();}
+  if (chart) { chart.destroy(); }
   chart = new Chart(document.getElementById('scatter'), {
     type: 'line',
     data: {

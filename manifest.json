@@ -3,6 +3,7 @@
     "version": "1.0",
     "description": "Car Price Estimator",
     "permissions": [
+      "storage",
       "activeTab",
       "cookies",
       "https://www.bilbasen.dk/*"
