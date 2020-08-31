@@ -15,10 +15,10 @@ function getDetails(request, sender, sendResponse) {
     for (var i = 0; i < carPriceNodes.length; i++) {
         let carId = i;
         let carPrice = parseInt(carPriceNodes[i].innerText.split(' ')[0].split('.').join(''));
-        if (Number.isNaN(carPrice)) {
+        let carYear = new Date(carPriceNodes[i].previousElementSibling.innerText).getTime();
+        if (Number.isNaN(carPrice) || Number.isNaN(carYear)) {
             continue;
         }
-        let carYear = new Date(carPriceNodes[i].previousElementSibling.innerText).getTime();
         let carTitle = carPriceNodes[i].parentElement.parentElement.previousElementSibling.getElementsByClassName("listing-heading darkLink")[0].innerText
         let car = {id: carId, title: carTitle, year: carYear, price: carPrice};
         cars.push(car);
