@@ -48,7 +48,7 @@ function doRegression() {
   let init = new Date(data[0][0]).getUTCFullYear() - extrapolationYears;
   let fin = Math.min(new Date().getUTCFullYear(), (new Date(data[data.length - 1][0]).getUTCFullYear() + extrapolationYears));
   for (let i = init; i <= fin; i++) {
-    let year = new Date(i.toString());
+    let year = new Date(i, 6);
     let [x, y] = regressionResult.predict(year.getTime());
     regressionPoints.push([Math.round(x), Math.round(y)]);
   }

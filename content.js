@@ -15,7 +15,7 @@ function getDetails(request, sender, sendResponse) {
     for (var i = 0; i < carPriceNodes.length; i++) {
         let carId = i;
         let carPrice = parseInt(carPriceNodes[i].innerText.split(' ')[0].split('.').join(''));
-        let carYear = new Date(carPriceNodes[i].previousElementSibling.innerText).getTime();
+        let carYear = new Date(carPriceNodes[i].previousElementSibling.innerText.concat('-07')).getTime();
         if (Number.isNaN(carPrice) || Number.isNaN(carYear)) {
             continue;
         }

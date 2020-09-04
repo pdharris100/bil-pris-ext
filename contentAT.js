@@ -35,15 +35,43 @@ function parseResponse(responseText, pageCount) {
 
     let cars = [];
     for (var i = 0; i < carPrices.length; i++) {
-        let carId = i;
-        let carPrice = parseInt(carPrices[i].firstElementChild.innerText.split('£')[1].split(',').join(''));
-        let carYear = new Date(carSpecs[i].firstElementChild.innerText.split(" ")[0]).getTime();
-        if (Number.isNaN(carPrice) || Number.isNaN(carYear)) {
+        try {
+            let carPrice = parseInt(carPrices[i].firstElementChild.innerText.split('£')[1].split(',').join(''));
+
+            let spec = carSpecs[i].firstElementChild.innerText.trim();
+            let reg = spec.slice(6, 8);
+            let [regFirstChar, regSecondChar] = reg.split("");
+            if (regFirstChar === undefined || Number.isNaN(regFirstChar)) {
+                var carYear = new Date(spec.split(" ")[0]).getTime();
+            }
+            else {
+                if (regFirstChar === "0" || regFirstChar === "5") {
+                    var regYear = "200".concat(regSecondChar);
+                } else if (regFirstChar === "1" || regFirstChar === "6") {
+                    var regYear = "201".concat(regSecondChar);
+                } else if (regFirstChar === "2" || regFirstChar === "7") {
+                    var regYear = "202".concat(regSecondChar);
+                }
+
+                if (parseInt(regFirstChar) < 5) {
+                    var regMonthDay = "06-01";
+                } else {
+                    var regMonthDay = "12-01";
+                }
+
+                var carYear = new Date(regYear.concat("-", regMonthDay)).getTime();
+            }
+
+            if (Number.isNaN(carPrice) || Number.isNaN(carYear)) {
+                continue;
+            }
+
+            let carTitle = carTitles[i].innerText.trim();
+            let car = { id: parseInt(''.concat(pageCount, i)), title: carTitle, year: carYear, price: carPrice };
+            cars.push(car);
+        } catch (ex) {
             continue;
         }
-        let carTitle = carTitles[i].innerText.trim();
-        let car = { id: parseInt(''.concat(pageCount, carId)), title: carTitle, year: carYear, price: carPrice };
-        cars.push(car);
     };
     return cars;
 }
