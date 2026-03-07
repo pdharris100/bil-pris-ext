@@ -1,11 +1,11 @@
 // test-content.mjs
-// Runs the real Bilbasen scraper from content.js against html.html (saved SRP HTML)
+// Runs the real Bilbasen scraper from content.js against sample-bilbasen.html (saved SRP HTML)
 
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import { JSDOM, VirtualConsole } from 'jsdom';
 
-const html = fs.readFileSync(new URL('./html.html', import.meta.url), 'utf8');
+const html = fs.readFileSync(new URL('./sample-bilbasen.html', import.meta.url), 'utf8');
 
 // Silence noisy CSS parsing errors from the saved page HTML.
 const virtualConsole = new VirtualConsole();
@@ -46,7 +46,7 @@ assert.ok(Number.isFinite(first.price) && first.price > 0, 'price should be a po
 assert.equal(typeof first.year, 'number');
 assert.ok(Number.isFinite(first.year) && first.year > 0, 'year should be a timestamp in ms');
 
-// Sanity check against the first listing in html.html
+// Sanity check against the first listing in the saved HTML fixture.
 assert.equal(first.price, 569900);
 assert.equal(new Date(first.year).getUTCFullYear(), 2020);
 

@@ -2,7 +2,8 @@
   "name": "bil-pris-ext",
   "private": true,
   "scripts": {
-    "test": "node test-content.mjs"
+    "build": "node scripts/build-dist.mjs",
+    "test": "node test-content.mjs && node test-contentAT.mjs"
   },
   "dependencies": {
     "jsdom": "^28.1.0"
