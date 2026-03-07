@@ -1,0 +1,10 @@
+{
+  "name": "bil-pris-ext",
+  "private": true,
+  "scripts": {
+    "test": "node test-content.mjs"
+  },
+  "dependencies": {
+    "jsdom": "^28.1.0"
+  }
+}

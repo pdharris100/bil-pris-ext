@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Chrome: Bilbasen (load extension)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "https://www.bilbasen.dk/brugt/bil/porsche/taycan_4s?includeengroscvr=true&includeleasing=false",
+      "runtimeArgs": [
+        "--disable-extensions-except=${workspaceFolder}",
+        "--load-extension=${workspaceFolder}",
+        "--user-data-dir=${workspaceFolder}/.chrome-profile",
+        "--no-first-run",
+        "--no-default-browser-check"
+      ],
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": false,
+      "perScriptSourcemaps": "no",
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ],
+      "skipFiles": [
+        "<node_internals>/**",
+        "**/node_modules/**"
+      ]
+    }
+  ]
+}

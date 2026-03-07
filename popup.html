@@ -1,28 +1,31 @@
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/regression/2.0.1/regression.min.js"></script>
-    <script src="popup.js"></script>
+    <meta charset="utf-8" />
+    <title>Car Price Estimator</title>
+    <script src="vendor/moment.min.js" defer></script>
+    <script src="vendor/Chart.min.js" defer></script>
+    <script src="vendor/regression.min.js" defer></script>
+    <script src="popup.js" defer></script>
 </head>
 
-<body style="width: 750px"></body>
-<div style="text-align: right; font-size: small">
-    <label for="years">Extrapolate</label>
-    <select id="years" name="years" unit>
-        <option value=0>0</option>
-        <option value=1>1</option>
-        <option value=2>2</option>
-        <option value=3>3</option>
-        <option value=4>4</option>
-        <option value=5>5</option>
-    </select>
-    years
-</div>
-<div>
-    <canvas id="scatter"></canvas>
-</div>
+<body style="width: 750px">
+    <div style="text-align: right; font-size: small">
+        <label for="years">Extrapolate</label>
+        <select id="years" name="years" unit>
+            <option value=0>0</option>
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4>4</option>
+            <option value=5>5</option>
+        </select>
+        years
+    </div>
+    <div>
+        <canvas id="scatter"></canvas>
+    </div>
 </body>
 
 </html>

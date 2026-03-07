@@ -19,7 +19,13 @@ document.addEventListener('DOMContentLoaded', function () {
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   console.log("Sending message to content script");
   chrome.tabs.sendMessage(tabs[0].id, { action: "getDetails" }, function (response) {
-    cars = response;
+    if (chrome.runtime.lastError) {
+      console.warn('Failed to reach content script:', chrome.runtime.lastError.message);
+      cars = [];
+      return execute();
+    }
+
+    cars = Array.isArray(response) ? response : [];
     execute();
   });
 });
@@ -32,6 +38,14 @@ function changeHandler(e) {
 
 function execute() {
   console.log("Cars", cars);
+  if (!Array.isArray(cars) || cars.length === 0) {
+    console.warn('No car data available (empty scrape or wrong page).');
+    if (chart) {
+      chart.destroy();
+      chart = undefined;
+    }
+    return;
+  }
   doRegression();
   console.log("DataOut", regressionPoints);
   generateChart();
